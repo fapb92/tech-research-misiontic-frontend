@@ -9,8 +9,11 @@
   background-color: var(--primary-background-color);
   color: var(--primary-text-color);
   justify-content: space-between;
+  align-items: center;
   position: fixed;
+  top: 0%;
   width: 100%;
+  height: var(--height-navbar);;
 }
 
 .navBarLogo {

@@ -1,12 +1,19 @@
 import "./App.css";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Portada } from "./components/portada/Portada";
+import { NavBar } from './components/NavBar/NavBar';
 
 function App() {
+  const user = false
   return (
     <div className="App">
       <Router>
-        <Portada />
+        {user ? <NavBar /> : <Portada />}
+        <Routes>
+
+        </Routes>
+
+
 
       </Router>
     </div>

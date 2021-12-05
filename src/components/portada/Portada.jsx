@@ -1,20 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link, Routes } from 'react-router-dom'
 import "./portada.css"
 
 export const Portada = () => {
-    const loginSection = document.getElementById("loginSection");
-    const RegistroSection = document.getElementById("RegistroSection");
+    useEffect(() => {
+        const loginSection = document.getElementById("loginSection");
+        const RegistroSection = document.getElementById("RegistroSection");
 
-    loginSection.addEventListener("click", function () {
-        loginSection.classList.add("btnSelectActive");
-        RegistroSection.classList.remove("btnSelectActive");
-    });
+        loginSection.addEventListener("click", function () {
+            loginSection.classList.add("btnSelectActive");
+            RegistroSection.classList.remove("btnSelectActive");
+        });
 
-    RegistroSection.addEventListener("click", function () {
-        RegistroSection.classList.add("btnSelectActive");
-        loginSection.classList.remove("btnSelectActive");
-    });
+        RegistroSection.addEventListener("click", function () {
+            RegistroSection.classList.add("btnSelectActive");
+            loginSection.classList.remove("btnSelectActive");
+        });
+    }, [])
+
 
 
 
