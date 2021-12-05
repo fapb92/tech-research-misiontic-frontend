@@ -3,6 +3,16 @@ import { NavLink } from "react-router-dom";
 import "./NavBar.css";
 
 export const NavBar = () => {
+
+  function abrirLista() {
+    document.getElementById("navBarList").classList.add("navList_opened");
+  }
+
+  function cerrarLista() {
+    document.getElementById("navBarList").classList.remove("navList_opened");
+  }
+
+
   return (
     <div className="centerNavBar">
       <nav className="navBar">
@@ -11,21 +21,21 @@ export const NavBar = () => {
           <span className="logoText logoSecond">Research</span>
         </div>
 
-        <button className="openMenu">
+        <button className="openMenu" onClick={() => abrirLista()}>
           <i className="fas fa-bars"></i>
         </button>
 
-        <ul className="navBarList">
-          <button className="closeMenu">
+        <ul className="navBarList" id="navBarList">
+          <button className="closeMenu" onClick={() => cerrarLista()}>
             <i className="fas fa-times"></i>
           </button>
           <li className="navBarItems">
-            <NavLink to="" className="navBarLinks">
+            <NavLink to="" className="navBarLinks" onClick={() => cerrarLista()}>
               Usuarios
             </NavLink>
           </li>
           <li className="navBarItems">
-            <NavLink to="" className="navBarLinks">
+            <NavLink to="" className="navBarLinks" onClick={() => cerrarLista()}>
               Proyectos
             </NavLink>
           </li>
