@@ -1,0 +1,118 @@
+.centerNavBar {
+  display: flex;
+  justify-content: center;
+}
+
+.navBar {
+  display: flex;
+  max-width: var(--max-screen-size);
+  background-color: var(--primary-background-color);
+  color: var(--primary-text-color);
+  justify-content: space-between;
+  position: fixed;
+  width: 100%;
+}
+
+.navBarLogo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  margin-left: 5%;
+}
+
+.logoText {
+  font-size: 1.5rem;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-weight: bolder;
+  text-shadow: 1px 1px 5px black;
+}
+
+.navBarList {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  justify-content: space-around;
+  margin-right: 30px;
+}
+
+.navBarItems {
+  margin: 0 10px;
+}
+
+.navBarLinks {
+  text-decoration: none;
+  color: white;
+  padding: 0.5em;
+  font-size: 1.3rem;
+  text-shadow: 1px 1px 5px #555555;
+}
+
+.btnSignOut {
+  color: white;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-top: 4px;
+  font-size: 1.12rem;
+  text-shadow: 1px 1px 5px #555555;
+  cursor: pointer;
+}
+
+.openMenu,
+.closeMenu {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .navBarList {
+    flex-direction: column;
+    position: fixed;
+    background-color: var(--secondary-background-color);
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    align-items: center;
+    justify-content: flex-start;
+    overflow-y: auto;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+
+  .navBarItems {
+    line-height: 60px;
+  }
+
+  .navBarLinks {
+    text-shadow: 1px 1px 5px #ff7518;
+  }
+
+  .openMenu,
+  .closeMenu {
+    display: block;
+    margin-right: 30px;
+    background: none;
+    color: var(--primary-text-color);
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+  }
+
+  .closeMenu {
+    align-self: flex-end;
+    padding: 0.5rem 0.4rem;
+  }
+
+  .btnSignOut {
+    margin-top: 20px;
+    cursor: pointer;
+  }
+
+  .navList_opened {
+    opacity: 1;
+    pointer-events: all;
+    
+  }
+}
