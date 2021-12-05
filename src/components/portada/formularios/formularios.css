@@ -1,0 +1,64 @@
+.formBody{
+    /* border: 1px solid blue; */
+    margin: 0;
+    padding: 0;
+}
+
+.formControl{
+    /* border: 1px solid red; */
+    width: 50%;
+    min-width: 400px;
+    margin: 0 auto;
+    background-color: var(--secundary-text-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    box-shadow: 3px 3px 5px gray;
+}
+
+.formControl>i{
+    margin: 10px auto 0px;
+    font-size: 4rem;
+    font-weight: 700;
+    color: white;
+    text-shadow: 1px 1px 5px black;
+}
+
+.itemsForm{
+    /* border: 1px solid orange; */
+    margin: 10px;
+    width: 50%;
+    min-width: 350px;
+    display: flex;
+    flex-direction: column;
+    font-size: 1.25rem;
+    text-shadow: 1px 1px 5px black;
+    font-weight: 700;
+    color: white;
+}
+
+.itemsForm>input,
+.itemsForm>select{
+    font-size: 1.12rem;
+    background-color: white;
+    padding: 5px;
+    margin: 3px 0px;
+    border-radius: 10px;
+    border: 3px solid var(--tertiary-background-color);
+}
+
+
+.btnSumit{
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-shadow: 1px 1px 5px black;
+    padding: 0.5em;
+    background-color: var(--button-success-background-color);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 2px 2px 2px black;
+    margin-bottom: 15px;
+}

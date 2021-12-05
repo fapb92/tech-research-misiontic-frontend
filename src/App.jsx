@@ -8,9 +8,8 @@ function App() {
   return (
     <div className="App">
       <Router>
-        {user ? <NavBar /> : <Portada />}
         <Routes>
-
+          <Route path="" element={user ? <NavBar /> : <Portada />} />
         </Routes>
 
 

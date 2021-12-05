@@ -1,8 +1,21 @@
-import React, { useEffect } from 'react'
-import { Link, Routes } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Login } from './formularios/Login'
+import { Registro } from './formularios/Registro'
 import "./portada.css"
 
 export const Portada = () => {
+    // Se establece el estado de la seleccion de lo botones
+    //  si es true muestra el login si es false muestra el registro
+    const [selection, setSelection] = useState(true)
+
+    const handleLogin = () => {
+        setSelection(true)
+    }
+
+    const handleRegistro = () => {
+        setSelection(false)
+    }
+
     useEffect(() => {
         const loginSection = document.getElementById("loginSection");
         const RegistroSection = document.getElementById("RegistroSection");
@@ -18,9 +31,6 @@ export const Portada = () => {
         });
     }, [])
 
-
-
-
     return (
         <div className="bodyPortada">
             <div className="titlePortada">
@@ -30,16 +40,19 @@ export const Portada = () => {
 
             <ul className="buttonsLoginReg">
                 <li>
-                    <Link to="" className="btnSelect btnSelectActive" id="loginSection">Inicio Sesión</Link>
+                    <button
+                        className="btnSelect btnSelectActive"
+                        id="loginSection"
+                        onClick={() => handleLogin()}>Ingresar</button>
                 </li>
                 <li>
-                    <Link to="" className="btnSelect" id="RegistroSection">Registrarse</Link>
+                    <button
+                        className="btnSelect"
+                        id="RegistroSection"
+                        onClick={() => handleRegistro()}>Registrarse</button>
                 </li>
             </ul>
-
-            <Routes>
-
-            </Routes>
+            {selection ? <Login /> : <Registro />}
 
 
         </div>
