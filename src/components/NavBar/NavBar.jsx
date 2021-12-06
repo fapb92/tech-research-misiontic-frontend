@@ -35,7 +35,7 @@ export const NavBar = () => {
             </NavLink>
           </li>
           <li className="navBarItems">
-            <NavLink to="" className="navBarLinks" onClick={() => cerrarLista()}>
+            <NavLink to="/projects" className="navBarLinks" onClick={() => cerrarLista()}>
               Proyectos
             </NavLink>
           </li>

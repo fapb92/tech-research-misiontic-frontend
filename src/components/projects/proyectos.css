@@ -12,9 +12,9 @@
     margin: 20px;
 }
 
-.tableFrame{
+.tableFrameProy{
     padding: 20px;
-    width: max(350px, 80%);
+    width: max(350px, 50%);
     max-height: 700px;
     margin: 0 auto;
     font-size: 1.12rem;
@@ -39,7 +39,7 @@ table{
     padding: 10px;
 }
 
-.btnVerMasUser{
+.btnVerMasProy{
     background-color: var(--button-info-background-color);
     color: white;
     font-size: 1.1rem;

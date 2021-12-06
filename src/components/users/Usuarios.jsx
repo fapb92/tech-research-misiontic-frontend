@@ -26,7 +26,7 @@ export const Usuarios = () => {
                             <td className="tableData">correo@email.com</td>
                             <td className="tableData">ADMINISTRADOR</td>
                             <td className="tableData">PENDIENTE</td>
-                            <td className="tableData"><button>Aceptar</button></td>
+                            <td className="tableData"><button className="btnVerMasUser">Ver más</button></td>
                         </tr>
                     </tbody>
                 </table>
