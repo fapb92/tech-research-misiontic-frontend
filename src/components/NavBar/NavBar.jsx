@@ -30,7 +30,7 @@ export const NavBar = () => {
             <i className="fas fa-times"></i>
           </button>
           <li className="navBarItems">
-            <NavLink to="" className="navBarLinks" onClick={() => cerrarLista()}>
+            <NavLink to="/users" className="navBarLinks" onClick={() => cerrarLista()}>
               Usuarios
             </NavLink>
           </li>
