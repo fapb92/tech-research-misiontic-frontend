@@ -1,20 +1,28 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Portada } from "./components/portada/Portada";
-import { NavBar } from './components/NavBar/NavBar';
 import { Usuarios } from "./components/users/Usuarios";
 import { Proyectos } from "./components/projects/Proyectos";
+import { PrivateRoute } from "./components/rutaPublicaPrivada/PrivateRoute";
+import { PublicRoute } from "./components/rutaPublicaPrivada/PublicRoute";
+import { useAuth } from "./Authentication/Auth";
+import { useEffect } from "react";
 
 function App() {
-  const user = true;
+  const { user, isAuth, loginUser } = useAuth()
+
+  useEffect(() => {
+    console.log(user, isAuth);
+  }, [isAuth, user, loginUser])
+
   return (
     <div className="App">
       <Router>
-        {user ? <NavBar /> : null}
         <Routes>
-          <Route path="/" element={user ? null : <Portada />} />
-          <Route path="/users" element={user ? <Usuarios /> : <Navigate to="/" replace />} />
-          <Route path="/projects" element={user ? <Proyectos /> : <Navigate to="/" replace />} />
+          <Route path="/" element={<PrivateRoute children={<h1>Hola</h1>} />} />
+          <Route path="/users" element={<PrivateRoute children={<Usuarios />} />} />
+          <Route path="/projects" element={<PrivateRoute children={<Proyectos />} />} />
+          <Route path="/signin" element={<PublicRoute children={<Portada />} />} />
         </Routes>
       </Router>
     </div>
