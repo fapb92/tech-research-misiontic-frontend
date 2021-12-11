@@ -10,44 +10,41 @@ export const useAuth = () => {
 
 
 export const AuthProvider = ({ children }) => {
-    // const user = {}
-    // const isAuth = false
 
-    const [user, setUser] = useState({});
-    const [isAuth, setIsAuth] = useState(false);
-
-    // const [loginUser, { data, loading, error }] = useAuthLogin()
-
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+    const [isAuth, setIsAuth] = useState(JSON.parse(localStorage.getItem("auth")));
 
     const [loginUser, { data, loading, error }] = useAuthLogin()
+
+    const logOutUser = () => {
+        setUser(null);
+        setIsAuth(false)
+        localStorage.clear()
+    }
 
     useEffect(() => {
         if (loading) {
             console.log("loding...");
-            setUser({ "nombre": "namwe" })
         }
 
         if (error) {
             console.log("Error", error.message);
         }
 
-
         if (data) {
-            console.log("entro a Auth 1");
             if (data.loginUser.success) {
                 setUser(data.loginUser.usuario)
                 setIsAuth(true)
-                console.log("entro a Auth2");
+                localStorage.setItem("user", JSON.stringify(data.loginUser.usuario));
+                localStorage.setItem("auth", "true");
             } else {
                 console.log(data.loginUser.message);
             }
         }
     }, [data, error, loading])
 
-
-
     return (
-        <AuthContext.Provider value={{ user, isAuth, loginUser }}>
+        <AuthContext.Provider value={{ user, isAuth, loginUser, logOutUser }}>
             {children}
         </AuthContext.Provider>
     )

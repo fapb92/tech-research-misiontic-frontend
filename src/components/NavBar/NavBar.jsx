@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { LogOutButton } from "./LogOutButton";
 import "./NavBar.css";
 
 export const NavBar = () => {
@@ -40,7 +41,7 @@ export const NavBar = () => {
             </NavLink>
           </li>
           <li>
-            <button className="btnSignOut">Cerrar Sesión</button>
+            <LogOutButton className="btnSignOut">Cerrar Sesión</LogOutButton>
           </li>
         </ul>
       </nav>
