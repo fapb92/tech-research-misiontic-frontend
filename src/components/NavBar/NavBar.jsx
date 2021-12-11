@@ -29,7 +29,7 @@ export const NavBar = () => {
           </button>
           <li className='navBarItems'>
             <NavLink
-              to='/users'
+              to='/usuarios'
               className='navBarLinks'
               onClick={() => cerrarLista()}
             >

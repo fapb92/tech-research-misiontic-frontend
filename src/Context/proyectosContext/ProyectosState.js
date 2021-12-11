@@ -5,8 +5,6 @@ import ProyectosReducer from './ProyectosReducer';
 
 import { GET_PROYECTOS } from '../../graphql/proyectos/queries';
 
-import React from 'react';
-
 const ProyectosState = (props) => {
   const initialState = {
     proyectos: [],
