@@ -7,8 +7,7 @@ import { PrivateRoute } from "./components/rutaPublicaPrivada/PrivateRoute";
 import { PublicRoute } from "./components/rutaPublicaPrivada/PublicRoute";
 
 function App() {
-
-  return (
+  return (<>
     <div className="App">
       <Router>
         <Routes>
@@ -19,6 +18,7 @@ function App() {
         </Routes>
       </Router>
     </div>
+  </>
   );
 }
 

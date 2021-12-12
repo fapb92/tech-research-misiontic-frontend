@@ -18,6 +18,9 @@ export const Login = () => {
                 password: itemForm.password.value
             },
         })
+
+        itemForm.email.value = ""
+        itemForm.password.value = ""
         console.log("navegando...");
         navigate("/")
     }
