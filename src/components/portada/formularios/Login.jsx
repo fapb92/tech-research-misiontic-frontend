@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../../Authentication/Auth'
 import style from "./Formularios.module.css"
@@ -6,22 +6,32 @@ import style from "./Formularios.module.css"
 export const Login = () => {
     const { loginUser } = useAuth()
     let navigate = useNavigate()
-
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
 
     const HandleSubmit = async (e) => {
         e.preventDefault();
-        const itemForm = e.target.elements
+
+        if (email === "") {
+            alert("Por favor ingresa Correo")
+            return
+        }
+
+        if (password === "") {
+            alert("Por favor ingresa la contraseña")
+            return
+        }
 
         await loginUser({
             variables: {
-                email: itemForm.email.value,
-                password: itemForm.password.value
+                email,
+                password
             },
         })
 
-        // itemForm.email.value = ""
-        // itemForm.password.value = ""
-        console.log("navegando...");
+        setEmail("")
+        setPassword("")
+
         navigate("/")
     }
 
@@ -33,11 +43,19 @@ export const Login = () => {
                 <i className="fas fa-sign-in-alt"></i>
                 <div className={style.itemsForm}>
                     <label >Correo</label>
-                    <input type="email" name="email" />
+                    <input
+                        type="email"
+                        name="email"
+                        onChange={(e) => setEmail(e.target.value)}
+                        value={email} />
                 </div>
                 <div className={style.itemsForm}>
                     <label>Contraseña</label>
-                    <input type="password" name="password" />
+                    <input
+                        type="password"
+                        name="password"
+                        onChange={(e) => setPassword(e.target.value)}
+                        value={password} />
                 </div>
                 <div className={style.itemsForm}>
                     <button className={style.btnSumit}>Iniciar Sesión</button>
