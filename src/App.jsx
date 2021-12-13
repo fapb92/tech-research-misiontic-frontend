@@ -32,7 +32,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<PrivateRoute children={<h1>Hola</h1>} />} />
                 <Route path="/users" element={<PrivateRoute children={<Usuarios />} />} />
-                <Route path="/projectos" element={<PrivateRoute children={<Proyectos />} />} />
+                <Route path="/proyectos" element={<PrivateRoute children={<Proyectos />} />} />
                 <Route path="/signin" element={<PublicRoute children={<Portada />} />} />
                 {/* <Route path='/' element={user ? null : <Portada />} />
               <Route
