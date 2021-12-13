@@ -1,25 +1,44 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_USUARIOS } from '../../graphql/usuarios/queries';
 import ItemUsuario from './ItemUsuario';
 import UsuariosContext from '../../Context/usuariosContext/UsuariosContext';
+import Swal from 'sweetalert2';
 
 const TablaUsuarios = () => {
   const usuariosContext = useContext(UsuariosContext);
   const { getUsuarios } = usuariosContext;
 
-  const { data, loading } = useQuery(GET_USUARIOS);
-
-  const [usuarios, setUsuarios] = useState([]);
+  const { data, loading, error } = useQuery(GET_USUARIOS);
 
   useEffect(() => {
     console.log('useEffect desde usuarios');
-    if (!loading) {
-      setUsuarios(data.obtenerUsuarios);
+    if (!loading && !error) {
       getUsuarios(data.obtenerUsuarios);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, loading]);
+
+  if (error) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'Error al cargar los datos!',
+    });
+
+    return (
+      <p className='mt-2 bg-gray-200 text-center rounded font-medium text-white truncate text-gray-800'>
+        Error
+      </p>
+    );
+  }
+
+  if (loading)
+    return (
+      <p className='mt-2 bg-gray-200 text-center rounded font-medium text-white truncate text-gray-800'>
+        Cargando...
+      </p>
+    );
 
   return (
     <div className='flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-gray-50'>
@@ -58,7 +77,7 @@ const TablaUsuarios = () => {
             </tr>
           </thead>
           <tbody>
-            {usuarios.map((usuario) => (
+            {data.obtenerUsuarios.map((usuario) => (
               <ItemUsuario key={usuario._id} usuario={usuario} />
             ))}
           </tbody>

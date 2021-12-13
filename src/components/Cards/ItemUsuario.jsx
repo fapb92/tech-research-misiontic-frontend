@@ -1,16 +1,36 @@
 import React, { useState } from 'react';
+import { useMutation } from '@apollo/client';
+import { CAMBIAR_ESTADO } from '../../graphql/usuarios/mutations';
+import { Enum_EstadoUsuario } from '../../utils/enums';
+import Swal from 'sweetalert2';
 
 const ItemUsuario = ({ usuario }) => {
   const { _id, identificacion, nombre, apellido, email, rol, estado } = usuario;
   const [estadoNuevo, setEstadoNuevo] = useState('');
 
+  const [mutateEstado, { data, loading, error }] = useMutation(CAMBIAR_ESTADO);
+
   const handleChange = (e) => {
     setEstadoNuevo(e.target.value);
   };
 
-  const cambiarEstado = (id, estadoNuevo) => {
+  const cambiarEstado = (estadoNuevo) => {
     if (estadoNuevo.trim() === '') return;
+
+    mutateEstado({
+      variables: { id: _id, estado: estadoNuevo },
+    });
   };
+
+  if (error) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'No se pudo actualizar el estado',
+    });
+
+    return <p>Error</p>;
+  }
 
   return (
     <tr>
@@ -46,11 +66,13 @@ const ItemUsuario = ({ usuario }) => {
           className='bg-gray-100 text-gray-900 font-bold uppercase text-xs px-4 py-2 rounded shadow mr-1'
         >
           <option value=''>--SELECCIONAR--</option>
-          <option value='AUTORIZADO'>Autorizado</option>
-          <option value='NO_AUTORIZADO'>No autorizado</option>
+          <option value={Enum_EstadoUsuario.AUTORIZADO}>Autorizado</option>
+          <option value={Enum_EstadoUsuario.NO_AUTORIZADO}>
+            No Autorizado
+          </option>
         </select>
         <button
-          onClick={() => cambiarEstado(_id, estadoNuevo)}
+          onClick={() => cambiarEstado(estadoNuevo)}
           className='bg-blue-500 text-white hover:bg-blue-700 font-bold uppercase text-xs px-4 py-2 rounded shadow mr-1'
         >
           Cambiar

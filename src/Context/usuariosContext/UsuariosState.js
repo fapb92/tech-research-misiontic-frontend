@@ -6,7 +6,14 @@ import UsuariosReducer from './UsuariosReducer';
 const UsuariosState = (props) => {
   const initialState = {
     usuarios: [],
-    user: null,
+    user: {
+      _id: '1q2w3e4r5t6y7u8i9o0p',
+      nombre: 'John',
+      apellido: 'Rambo',
+      email: 'john@rambo.com',
+      rol: 'ADMINISTRADOR',
+      estado: 'AUTORIZADO',
+    },
     token: null,
     autenticado: null,
   };
