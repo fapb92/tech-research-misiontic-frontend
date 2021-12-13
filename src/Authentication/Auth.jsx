@@ -69,7 +69,7 @@ export const AuthProvider = ({ children }) => {
                 setToken(loginRes.data.loginUser.token)
                 localStorage.setItem("token", loginRes.data.loginUser.token);
             } else {
-                console.log(loginRes.data.loginUser.message);
+                alert("Correo y/o contraseña incorrectos")
             }
         }
 
