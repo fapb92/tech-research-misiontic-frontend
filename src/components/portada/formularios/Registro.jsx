@@ -23,8 +23,8 @@ export const Registro = () => {
             return
         }
 
-        if (itemsForm.password.value !== itemsForm.rpassword.value) {
-            console.log("Contraseñas no coinciden");
+        if ((itemsForm.password.value !== itemsForm.rpassword.value) || itemsForm.password.value == "") {
+            alert("Contraseñas no coinciden");
             return
         }
 

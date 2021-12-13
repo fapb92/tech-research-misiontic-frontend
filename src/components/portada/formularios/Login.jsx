@@ -1,11 +1,9 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../../Authentication/Auth'
 import style from "./Formularios.module.css"
 
 export const Login = () => {
     const { loginUser } = useAuth()
-    let navigate = useNavigate()
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
@@ -29,10 +27,6 @@ export const Login = () => {
             },
         })
 
-        setEmail("")
-        setPassword("")
-
-        navigate("/")
     }
 
     return (
