@@ -3,12 +3,10 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Navigate,
 } from 'react-router-dom';
 import { ApolloProvider, InMemoryCache, ApolloClient } from '@apollo/client';
 
 import { Portada } from './components/portada/Portada';
-import { NavBar } from './components/NavBar/NavBar';
 import { Usuarios } from './components/users/Usuarios';
 // import { Proyectos } from './components/projects/Proyectos';
 import { PrivateRoute } from "./components/rutaPublicaPrivada/PrivateRoute";

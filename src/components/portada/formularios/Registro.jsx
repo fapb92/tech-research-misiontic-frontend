@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../../Authentication/Auth'
-import "./formularios.css"
+import style from "./Formularios.module.css"
 
 export const Registro = () => {
     const { crearUsuario } = useAuth()
@@ -50,42 +50,42 @@ export const Registro = () => {
 
     }
     return (
-        <div className="formBody">
+        <div className={style.formBody}>
             <form
-                className="formControl"
+                className={style.formControl}
                 onSubmit={(e) => handleSubmit(e)}>
                 <i className="fas fa-user-plus"></i>
-                <div className="itemsForm">
+                <div className={style.itemsForm}>
                     <label >Identificación</label>
                     <input type="text" name="identification" />
                 </div>
 
-                <div className="itemsForm">
+                <div className={style.itemsForm}>
                     <label >Nombre</label>
                     <input type="text" name="name" />
                 </div>
 
-                <div className="itemsForm">
+                <div className={style.itemsForm}>
                     <label >Apellido</label>
                     <input type="text" name="surname" />
                 </div>
 
-                <div className="itemsForm">
+                <div className={style.itemsForm}>
                     <label >Correo</label>
                     <input type="email" name="email" />
                 </div>
 
-                <div className="itemsForm">
+                <div className={style.itemsForm}>
                     <label >Contraseña</label>
                     <input type="password" name="password" />
                 </div>
 
-                <div className="itemsForm">
+                <div className={style.itemsForm}>
                     <label >Repetir Contraseña</label>
                     <input type="password" name="rpassword" />
                 </div>
 
-                <div className="itemsForm">
+                <div className={style.itemsForm}>
                     <label >Rol</label>
                     <select name="rol">
                         <option value="">...</option>
@@ -95,8 +95,8 @@ export const Registro = () => {
                     </select>
                 </div>
 
-                <div className="itemsForm">
-                    <button className="btnSumit">Hacer Registro</button>
+                <div className={style.itemsForm}>
+                    <button className={style.btnSumit}>Hacer Registro</button>
                 </div>
             </form>
         </div>
