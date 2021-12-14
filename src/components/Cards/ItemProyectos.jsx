@@ -29,6 +29,10 @@ const ItemProyectos = ({ proyecto }) => {
         </button>
         <button className='bg-gray-700 text-white hover:bg-gray-900 font-bold uppercase text-xs px-4 py-2 rounded shadow mr-1'>
           Detalles
+        
+        </button>
+        <button className='bg-purple-500 text-white hover:bg-gray-900 font-bold uppercase text-xs px-4 py-2 rounded shadow mr-1'>
+          Inscribirme
         </button>
       </td>
     </tr>
