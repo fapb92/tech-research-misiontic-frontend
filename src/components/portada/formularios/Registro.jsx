@@ -13,32 +13,29 @@ export const Registro = () => {
                 <i class="fas fa-user-plus"></i>
                 <div className="itemsForm">
                     <label for="Identification">Identificación</label>
-                    <input type="text" name="identification" />
+                    <input type="text" name="identification" placeholder='Ingrese número de identificación' required/>
                 </div>
 
                 <div className="itemsForm">
-                    <label for="name">Nombre</label>
-                    <input type="text" name="name" />
+                    <label for="name">Nombres</label>
+                    <input type="text" name="name" placeholder='Ingrese Nombres' required/>
                 </div>
 
                 <div className="itemsForm">
-                    <label for="surname">Apellido</label>
-                    <input type="text" name="surname" />
+                    <label for="surname">Apellidos</label>
+                    <input type="text" name="surname" placeholder='Ingrese Apellidos' required/>
                 </div>
 
-                <div className="itemsForm">
-                    <label for="email">Correo</label>
-                    <input type="email" name="email" />
-                </div>
+                
 
                 <div className="itemsForm">
                     <label for="password">Contraseña</label>
-                    <input type="password" name="password" />
+                    <input type="password" name="password" placeholder='Ingrese Contraseña' required/>
                 </div>
 
                 <div className="itemsForm">
                     <label for="rpassword">Repetir Contraseña</label>
-                    <input type="password" name="rpassword" />
+                    <input type="password" name="rpassword" placeholder='Ingrese Contraseña' required/>
                 </div>
 
                 <div className="itemsForm">
