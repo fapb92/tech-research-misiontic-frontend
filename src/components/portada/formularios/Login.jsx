@@ -13,11 +13,11 @@ export const Login = () => {
                 <i class="fas fa-sign-in-alt"></i>
                 <div className="itemsForm">
                     <label for="email">Correo</label>
-                    <input type="email" name="email" />
+                    <input type="email" name="email" placeholder='Ingrese correo electrónico'required/>
                 </div>
                 <div className="itemsForm">
                     <label for="password">Contraseña</label>
-                    <input type="password" name="password" />
+                    <input type="password" name="password" placeholder="Ingrese contraseña" required/>
                 </div>
                 <div className="itemsForm">
                     <button className="btnSumit">Iniciar Sesión</button>
