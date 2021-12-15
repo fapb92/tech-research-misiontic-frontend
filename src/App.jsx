@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ApolloProvider, InMemoryCache, ApolloClient } from '@apollo/client';
 
 import { Portada } from './components/portada/Portada';
-import { NavBar } from './components/NavBar/NavBar';
 import { PrivateRoute } from './components/rutaPublicaPrivada/PrivateRoute';
 import { PublicRoute } from './components/rutaPublicaPrivada/PublicRoute';
 
@@ -28,7 +27,7 @@ function App() {
           <ProyectosState>
             <div className='App'>
               <Router>
-                <NavBar />
+                {/* <NavBar /> */}
                 <Routes>
                   <Route
                     path='/'
@@ -47,14 +46,10 @@ function App() {
                     element={<PublicRoute children={<Portada />} />}
                   />
 
-                  {/* <Route exact path='/proyectos' element={<Proyectos />} /> */}
                   <Route
-                    path='/proyectos'
-                    element={<PrivateRoute />}
-                    children={<Proyectos />}
+                    path='/proyectos/nuevo'
+                    element={<PrivateRoute children={<NuevoProyecto />} />}
                   />
-                  <Route path='/proyectos/nuevo' element={<NuevoProyecto />} />
-                  {/* <Route exact path='/usuarios' element={<Usuarios />} /> */}
                 </Routes>
               </Router>
             </div>

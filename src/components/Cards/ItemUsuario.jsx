@@ -17,8 +17,20 @@ const ItemUsuario = ({ usuario }) => {
   const cambiarEstado = (estadoNuevo) => {
     if (estadoNuevo.trim() === '') return;
 
-    mutateEstado({
-      variables: { id: _id, estado: estadoNuevo },
+    Swal.fire({
+      title: '¿Estás seguro?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, cambiar!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        mutateEstado({
+          variables: { id: _id, estado: estadoNuevo },
+        });
+        Swal.fire('Actualizado!', 'El estado ha sido actualizado', 'success');
+      }
     });
   };
 
