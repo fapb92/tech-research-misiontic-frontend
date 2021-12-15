@@ -20,4 +20,13 @@ const GET_PROYECTOS = gql`
   }
 `;
 
-export { GET_PROYECTOS };
+const GET_NOMBRE = gql`
+  query Query {
+    obtenerProyectos {
+      _id
+      nombre
+    }
+  }
+`;
+
+export { GET_PROYECTOS, GET_NOMBRE };

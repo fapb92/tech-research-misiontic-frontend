@@ -15,7 +15,7 @@ const Proyectos = () => {
   const [proyectos, setProyectos] = useState([]);
 
   useEffect(() => {
-    console.log('useEffect');
+    console.log('useEffect desde proyectos');
     if (!loading) {
       getProyectos(data);
       setProyectos(data.obtenerProyectos);
