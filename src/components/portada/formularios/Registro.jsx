@@ -54,7 +54,6 @@ export const Registro = () => {
             <form
                 className={style.formControl}
                 onSubmit={(e) => handleSubmit(e)}>
-<<<<<<< HEAD
                 <i className="fas fa-user-plus"></i>
                 <div className={style.itemsForm}>
                     <label >Identificación</label>
@@ -84,34 +83,6 @@ export const Registro = () => {
                 <div className={style.itemsForm}>
                     <label >Repetir Contraseña</label>
                     <input type="password" name="rpassword" />
-=======
-                <i class="fas fa-user-plus"></i>
-                <div className="itemsForm">
-                    <label for="Identification">Identificación</label>
-                    <input type="text" name="identification" placeholder='Ingrese número de identificación' required/>
-                </div>
-
-                <div className="itemsForm">
-                    <label for="name">Nombres</label>
-                    <input type="text" name="name" placeholder='Ingrese Nombres' required/>
-                </div>
-
-                <div className="itemsForm">
-                    <label for="surname">Apellidos</label>
-                    <input type="text" name="surname" placeholder='Ingrese Apellidos' required/>
-                </div>
-
-                
-
-                <div className="itemsForm">
-                    <label for="password">Contraseña</label>
-                    <input type="password" name="password" placeholder='Ingrese Contraseña' required/>
-                </div>
-
-                <div className="itemsForm">
-                    <label for="rpassword">Repetir Contraseña</label>
-                    <input type="password" name="rpassword" placeholder='Ingrese Contraseña' required/>
->>>>>>> fd3dfea9cd28700c10a13535143faf8e539c1574
                 </div>
 
                 <div className={style.itemsForm}>
