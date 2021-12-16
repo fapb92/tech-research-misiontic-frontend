@@ -1,13 +1,57 @@
-import React from 'react'
-import "./formularios.css"
+import React, { useState } from 'react'
+import { useAuth } from '../../../Authentication/Auth'
+import style from "./Formularios.module.css"
 
 export const Login = () => {
-    const handleSubmit = (e) => {
-        e.preventDefault()
+    const { loginUser } = useAuth()
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+
+    const HandleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (email === "") {
+            alert("Por favor ingresa Correo")
+            return
+        }
+
+        if (password === "") {
+            alert("Por favor ingresa la contraseña")
+            return
+        }
+
+        await loginUser({
+            variables: {
+                email,
+                password
+            },
+        })
+
     }
+
     return (
-        <div className="formBody">
+        <div className={style.formBody}>
             <form
+<<<<<<< HEAD
+                className={style.formControl}
+                onSubmit={(e) => HandleSubmit(e)}>
+                <i className="fas fa-sign-in-alt"></i>
+                <div className={style.itemsForm}>
+                    <label >Correo</label>
+                    <input
+                        type="email"
+                        name="email"
+                        onChange={(e) => setEmail(e.target.value)}
+                        value={email} />
+                </div>
+                <div className={style.itemsForm}>
+                    <label>Contraseña</label>
+                    <input
+                        type="password"
+                        name="password"
+                        onChange={(e) => setPassword(e.target.value)}
+                        value={password} />
+=======
                 className="formControl"
                 onSubmit={(e) => handleSubmit(e)}>
                 <i class="fas fa-sign-in-alt"></i>
@@ -18,11 +62,12 @@ export const Login = () => {
                 <div className="itemsForm">
                     <label for="password">Contraseña</label>
                     <input type="password" name="password" placeholder="Ingrese contraseña" required/>
+>>>>>>> fd3dfea9cd28700c10a13535143faf8e539c1574
                 </div>
-                <div className="itemsForm">
-                    <button className="btnSumit">Iniciar Sesión</button>
+                <div className={style.itemsForm}>
+                    <button className={style.btnSumit}>Iniciar Sesión</button>
                 </div>
             </form>
-        </div>
+        </div >
     )
 }

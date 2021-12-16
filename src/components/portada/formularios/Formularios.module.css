@@ -43,6 +43,7 @@
 .itemsForm>select{
     font-size: 1.12rem;
     background-color: white;
+    color: black;
     padding: 5px;
     margin: 3px 0px;
     border-radius: 10px;
@@ -61,4 +62,5 @@
     border-radius: 15px;
     box-shadow: 2px 2px 2px black;
     margin-bottom: 15px;
+    cursor: pointer;
 }

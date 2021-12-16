@@ -1,0 +1,53 @@
+/* .bodyTable,th,tr,td{
+    border: 1px solid red;
+} */
+
+.bodyTable{
+    max-width: var(--max-screen-size);
+    margin: 0 auto;
+    text-align: center;
+}
+
+.titleTable{
+    margin: 20px;
+}
+
+.tableFrameProy{
+    padding: 20px;
+    width: max(350px, 50%);
+    max-height: 700px;
+    margin: 0 auto;
+    font-size: 1.12rem;
+    background-color: var(--tertiary-background-color);
+    border-radius: 15px;
+    box-shadow: 0px 0px 10px gray;
+    overflow: auto;
+}
+
+table{
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+.theader{
+    border-bottom: 2px solid gray;
+    padding: 10px;
+}
+
+.tableData{
+    border-bottom: 2px solid lightgray;
+    padding: 10px;
+}
+
+.btnVerMasProy{
+    background-color: var(--button-info-background-color);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-shadow: 1px 1px 3px black;
+    padding: 0.3em;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 1px 1px 3px gray;
+
+}
