@@ -23,7 +23,7 @@ export const Registro = () => {
             return
         }
 
-        if ((itemsForm.password.value !== itemsForm.rpassword.value) || itemsForm.password.value == "") {
+        if ((itemsForm.password.value !== itemsForm.rpassword.value) || itemsForm.password.value === "") {
             alert("Contraseñas no coinciden");
             return
         }
@@ -54,70 +54,41 @@ export const Registro = () => {
             <form
                 className={style.formControl}
                 onSubmit={(e) => handleSubmit(e)}>
-<<<<<<< HEAD
                 <i className="fas fa-user-plus"></i>
                 <div className={style.itemsForm}>
                     <label >Identificación</label>
-                    <input type="text" name="identification" />
+                    <input type="text" name="identification" required placeholder='Ingrese Identificación'/>
                 </div>
 
                 <div className={style.itemsForm}>
-                    <label >Nombre</label>
-                    <input type="text" name="name" />
+                    <label >Nombres</label>
+                    <input type="text" name="name" required placeholder='Ingrese Nombres'/>
                 </div>
 
                 <div className={style.itemsForm}>
-                    <label >Apellido</label>
-                    <input type="text" name="surname" />
+                    <label >Apellidos</label>
+                    <input type="text" name="surname" required placeholder='Ingrese Apellidos'/>
                 </div>
 
                 <div className={style.itemsForm}>
                     <label >Correo</label>
-                    <input type="email" name="email" />
+                    <input type="email" name="email" required placeholder='Ingrese Correo'/>
                 </div>
 
                 <div className={style.itemsForm}>
                     <label >Contraseña</label>
-                    <input type="password" name="password" />
+                    <input type="password" name="password" required placeholder='Ingrese Contraseña'/>
                 </div>
 
                 <div className={style.itemsForm}>
                     <label >Repetir Contraseña</label>
-                    <input type="password" name="rpassword" />
-=======
-                <i class="fas fa-user-plus"></i>
-                <div className="itemsForm">
-                    <label for="Identification">Identificación</label>
-                    <input type="text" name="identification" placeholder='Ingrese número de identificación' required/>
-                </div>
-
-                <div className="itemsForm">
-                    <label for="name">Nombres</label>
-                    <input type="text" name="name" placeholder='Ingrese Nombres' required/>
-                </div>
-
-                <div className="itemsForm">
-                    <label for="surname">Apellidos</label>
-                    <input type="text" name="surname" placeholder='Ingrese Apellidos' required/>
-                </div>
-
-                
-
-                <div className="itemsForm">
-                    <label for="password">Contraseña</label>
-                    <input type="password" name="password" placeholder='Ingrese Contraseña' required/>
-                </div>
-
-                <div className="itemsForm">
-                    <label for="rpassword">Repetir Contraseña</label>
-                    <input type="password" name="rpassword" placeholder='Ingrese Contraseña' required/>
->>>>>>> fd3dfea9cd28700c10a13535143faf8e539c1574
+                    <input type="password" name="rpassword" required placeholder='Ingrese Contraseña'/>
                 </div>
 
                 <div className={style.itemsForm}>
-                    <label >Rol</label>
+                    <label>Rol</label>
                     <select name="rol">
-                        <option value="">...</option>
+                        <option value="">   </option>
                         <option value="ESTUDIANTE">Estudiante</option>
                         <option value="LIDER">Lider</option>
                         <option value="ADMINISTRADOR">Administrador</option>
