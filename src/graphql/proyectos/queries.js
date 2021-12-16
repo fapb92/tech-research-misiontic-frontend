@@ -8,11 +8,10 @@ const GET_PROYECTOS = gql`
       objetivosGenerales
       objetivosEspecificos
       presupuesto
-      # fechaInicio
-      # fechaFin
       estado
       fase
       lider {
+        _id
         identificacion
         nombre
       }
@@ -20,13 +19,4 @@ const GET_PROYECTOS = gql`
   }
 `;
 
-const GET_NOMBRE = gql`
-  query Query {
-    obtenerProyectos {
-      _id
-      nombre
-    }
-  }
-`;
-
-export { GET_PROYECTOS, GET_NOMBRE };
+export { GET_PROYECTOS };

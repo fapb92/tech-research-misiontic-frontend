@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_USUARIOS } from '../../graphql/usuarios/queries';
+import { useAuth } from '../../Authentication/Auth';
 import ItemUsuario from './ItemUsuario';
 import UsuariosContext from '../../Context/usuariosContext/UsuariosContext';
 import Swal from 'sweetalert2';
@@ -8,6 +9,8 @@ import Swal from 'sweetalert2';
 const TablaUsuarios = () => {
   const usuariosContext = useContext(UsuariosContext);
   const { getUsuarios } = usuariosContext;
+
+  const { user } = useAuth();
 
   const { data, loading, error } = useQuery(GET_USUARIOS);
 
@@ -17,7 +20,7 @@ const TablaUsuarios = () => {
       getUsuarios(data.obtenerUsuarios);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, loading]);
+  }, [data, loading, error]);
 
   if (error) {
     Swal.fire({
@@ -27,7 +30,7 @@ const TablaUsuarios = () => {
     });
 
     return (
-      <p className='mt-2 bg-gray-200 text-center rounded font-medium text-white truncate text-gray-800'>
+      <p className='mt-2 bg-gray-200 text-center rounded font-medium truncate text-gray-800'>
         Error
       </p>
     );
@@ -35,10 +38,18 @@ const TablaUsuarios = () => {
 
   if (loading)
     return (
-      <p className='mt-2 bg-gray-200 text-center rounded font-medium text-white truncate text-gray-800'>
+      <p className='mt-2 bg-gray-200 text-center rounded font-medium truncate text-gray-800'>
         Cargando...
       </p>
     );
+
+  if (user.rol === 'ESTUDIANTE' || user.rol === 'LIDER') {
+    return (
+      <p className='mt-2 bg-gray-200 text-center rounded font-medium truncate text-gray-800'>
+        {`El usuario ${user.nombre} ${user.apellido} no esta autorizado`}
+      </p>
+    );
+  }
 
   return (
     <div className='flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-gray-50'>

@@ -1,26 +1,65 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { useForm } from 'react-hook-form';
+import { CREATE_PROYECTO } from '../../graphql/proyectos/mutations';
+import { GET_PROYECTOS } from '../../graphql/proyectos/queries';
+import Swal from 'sweetalert2';
+import { useAuth } from '../../Authentication/Auth';
 
 const NuevoProyecto = () => {
-  const [proyecto, setProyecto] = useState({
-    nombre: '',
-    presupuesto: '',
-    fechaInicio: '',
-    fechaFin: '',
-    objetivosGenerales: '',
-    objetivosEspecificos: '',
-    lider: '',
-  });
+  const [createProyecto, { /* data, loading, */ error }] = useMutation(
+    CREATE_PROYECTO,
+    {
+      refetchQueries: [{ query: GET_PROYECTOS }],
+    }
+  );
 
-  const handleChange = (e) => {
-    setProyecto({
-      ...proyecto,
-      [e.target.name]: e.target.value,
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ mode: 'onBlur' });
+
+  const onSubmit = ({
+    nombre,
+    presupuesto,
+    fechaInicio,
+    fechaFin,
+    objetivosGenerales,
+    objetivosEspecificos,
+  }) => {
+    createProyecto({
+      variables: {
+        nombre,
+        presupuesto: parseFloat(presupuesto),
+        fechaInicio,
+        fechaFin,
+        objetivosGenerales: [objetivosGenerales],
+        objetivosEspecificos: [objetivosEspecificos],
+        lider: user._id,
+      },
     });
-  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+    if (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo crear el proyecto',
+      });
+
+      return;
+    } else {
+      Swal.fire({
+        icon: 'success',
+        title: 'Creado',
+        text: 'Proyecto creado con éxito',
+      });
+    }
+
+    navigate('/proyectos');
   };
 
   return (
@@ -38,7 +77,7 @@ const NuevoProyecto = () => {
           </div>
         </div>
         <div className='flex-auto px-4 lg:px-10 py-10 pt-0'>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <h6 className='text-gray-400 text-sm mt-3 mb-6 font-bold uppercase'>
               Nuevo Proyecto
             </h6>
@@ -52,9 +91,19 @@ const NuevoProyecto = () => {
                     name='nombre'
                     type='text'
                     placeholder='Nombre del proyecto'
-                    onChange={handleChange}
+                    {...register('nombre', {
+                      required: {
+                        value: true,
+                        message: 'El nombre es requerido',
+                      },
+                    })}
                     className='border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-gray-50 rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                   />
+                  {errors.nombre && (
+                    <span className='text-red-500 font-bold'>
+                      {errors.nombre.message}
+                    </span>
+                  )}
                 </div>
               </div>
 
@@ -67,9 +116,19 @@ const NuevoProyecto = () => {
                     name='presupuesto'
                     type='Number'
                     placeholder='$ 10.000.000'
-                    onChange={handleChange}
+                    {...register('presupuesto', {
+                      required: {
+                        value: true,
+                        message: 'El presupuesto es requerido',
+                      },
+                    })}
                     className='border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-gray-50 rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                   />
+                  {errors.presupuesto && (
+                    <span className='text-red-500 font-bold'>
+                      {errors.presupuesto.message}
+                    </span>
+                  )}
                 </div>
               </div>
 
@@ -81,9 +140,19 @@ const NuevoProyecto = () => {
                   <input
                     name='fechaInicio'
                     type='date'
-                    onChange={handleChange}
+                    {...register('fechaInicio', {
+                      required: {
+                        value: true,
+                        message: 'La fecha de inicio es requerida',
+                      },
+                    })}
                     className='border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-gray-50 rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                   />
+                  {errors.fechaInicio && (
+                    <span className='text-red-500 font-bold'>
+                      {errors.fechaInicio.message}
+                    </span>
+                  )}
                 </div>
               </div>
 
@@ -95,9 +164,19 @@ const NuevoProyecto = () => {
                   <input
                     name='fechaFin'
                     type='date'
-                    onChange={handleChange}
+                    {...register('fechaFin', {
+                      required: {
+                        value: true,
+                        message: 'La fecha final es requerida',
+                      },
+                    })}
                     className='border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-gray-50 rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                   />
+                  {errors.fechaFin && (
+                    <span className='text-red-500 font-bold'>
+                      {errors.fechaFin.message}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
@@ -117,9 +196,19 @@ const NuevoProyecto = () => {
                     name='objetivosGenerales'
                     type='text'
                     placeholder='Objetivo general'
-                    onChange={handleChange}
+                    {...register('objetivosGenerales', {
+                      required: {
+                        value: true,
+                        message: 'Los objetivos generales son requeridos',
+                      },
+                    })}
                     className='border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-gray-50 rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                   />
+                  {errors.objetivosGenerales && (
+                    <span className='text-red-500 font-bold'>
+                      {errors.objetivosGenerales.message}
+                    </span>
+                  )}
                 </div>
               </div>
 
@@ -132,9 +221,19 @@ const NuevoProyecto = () => {
                     name='objetivosEspecificos'
                     type='text'
                     placeholder='Objetivo específico'
-                    onChange={handleChange}
+                    {...register('objetivosEspecificos', {
+                      required: {
+                        value: true,
+                        message: 'Los objetivos específicos son requeridos',
+                      },
+                    })}
                     className='border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-gray-50 rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                   />
+                  {errors.objetivosEspecificos && (
+                    <span className='text-red-500 font-bold'>
+                      {errors.objetivosEspecificos.message}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
@@ -151,10 +250,11 @@ const NuevoProyecto = () => {
                     Nombre
                   </label>
                   <input
+                    disabled
                     name='lider'
                     type='text'
                     placeholder='lider id'
-                    onChange={handleChange}
+                    defaultValue={`${user.nombre} ${user.apellido}`}
                     className='border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-gray-50 rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                   />
                 </div>
