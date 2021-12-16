@@ -62,7 +62,7 @@ export const Registro = () => {
 
                 <div className={style.itemsForm}>
                     <label >Nombre</label>
-                    <input type="text" name="name" />
+                    <input type="text" name="name" placeholder='Ingrese Nombres' required/>
                 </div>
 
                 <div className={style.itemsForm}>

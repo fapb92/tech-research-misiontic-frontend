@@ -1,6 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useQuery } from '@apollo/client';
+import { toast } from 'react-toastify';
+// import ReactLoading from 'react-loading';
+import { useMutation, useQuery } from '@apollo/client';
 import { GET_PROYECTOS } from '../../graphql/proyectos/queries';
+
+import { CREAR_INSCRIPCION } from '../../graphql/inscripciones/mutaciones';
 
 import ProyectosContext from '../../Context/proyectosContext/ProyectosContext';
 
