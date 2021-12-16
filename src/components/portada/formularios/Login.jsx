@@ -32,6 +32,7 @@ export const Login = () => {
     return (
         <div className={style.formBody}>
             <form
+<<<<<<< HEAD
                 className={style.formControl}
                 onSubmit={(e) => HandleSubmit(e)}>
                 <i className="fas fa-sign-in-alt"></i>
@@ -50,6 +51,18 @@ export const Login = () => {
                         name="password"
                         onChange={(e) => setPassword(e.target.value)}
                         value={password} />
+=======
+                className="formControl"
+                onSubmit={(e) => handleSubmit(e)}>
+                <i class="fas fa-sign-in-alt"></i>
+                <div className="itemsForm">
+                    <label for="email">Correo</label>
+                    <input type="email" name="email" placeholder='Ingrese correo electrónico'required/>
+                </div>
+                <div className="itemsForm">
+                    <label for="password">Contraseña</label>
+                    <input type="password" name="password" placeholder="Ingrese contraseña" required/>
+>>>>>>> fd3dfea9cd28700c10a13535143faf8e539c1574
                 </div>
                 <div className={style.itemsForm}>
                     <button className={style.btnSumit}>Iniciar Sesión</button>
