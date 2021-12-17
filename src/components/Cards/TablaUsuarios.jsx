@@ -1,13 +1,26 @@
+import React, { useEffect, useContext } from 'react';
 import { useQuery } from '@apollo/client';
-import { NavLink } from 'react-router-dom';
-import { GET_PROYECTOS } from '../../graphql/proyectos/queries';
+import { GET_USUARIOS } from '../../graphql/usuarios/queries';
 import { useAuth } from '../../Authentication/Auth';
-import ItemProyectos from './ItemProyectos';
+import ItemUsuario from './ItemUsuario';
+import UsuariosContext from '../../Context/usuariosContext/UsuariosContext';
 import Swal from 'sweetalert2';
 
-const TablaProyectos = () => {
-  const { data, loading, error } = useQuery(GET_PROYECTOS);
+const TablaUsuarios = () => {
+  const usuariosContext = useContext(UsuariosContext);
+  const { getUsuarios } = usuariosContext;
+
   const { user } = useAuth();
+
+  const { data, loading, error } = useQuery(GET_USUARIOS);
+
+  useEffect(() => {
+    console.log('useEffect desde usuarios');
+    if (!loading && !error) {
+      getUsuarios(data.obtenerUsuarios);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, loading, error]);
 
   if (error) {
     Swal.fire({
@@ -30,7 +43,12 @@ const TablaProyectos = () => {
       </p>
     );
 
-  if (user.estado !== 'AUTORIZADO') {
+  if (
+    user.rol === 'ESTUDIANTE' ||
+    user.rol === 'LIDER' ||
+    user.estado === 'NO_AUTORIZADO' ||
+    user.estado === 'PENDIENTE'
+  ) {
     return (
       <p className='mt-2 bg-gray-200 text-center rounded font-medium truncate text-gray-800'>
         {`El usuario ${user.nombre} ${user.apellido} no esta autorizado`}
@@ -43,17 +61,8 @@ const TablaProyectos = () => {
       <div className='rounded-t mb-0 px-4 py-3 border-0'>
         <div className='flex flex-wrap items-center'>
           <div className='relative w-full px-4 max-w-full flex-grow flex-1'>
-            <h3 className='font-semibold text-lg text-gray-800 '>Proyectos</h3>
+            <h3 className='font-semibold text-lg text-gray-800 '>Usuarios</h3>
           </div>
-
-          {user.rol !== 'ESTUDIANTE' && (
-            <NavLink
-              to='/proyectos/nuevo'
-              className='bg-green-500 text-white hover:bg-green-700 font-bold uppercase text-xs px-4 py-2 rounded shadow mr-1'
-            >
-              Nuevo
-            </NavLink>
-          )}
         </div>
       </div>
       <div className='block w-full overflow-x-auto'>
@@ -61,22 +70,22 @@ const TablaProyectos = () => {
           <thead>
             <tr>
               <th className='px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-gray-200 text-gray-600 border-gray-200'>
+                No. Identificación
+              </th>
+              <th className='px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-gray-200 text-gray-600 border-gray-200'>
                 Nombre
               </th>
               <th className='px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-gray-200 text-gray-600 border-gray-200'>
-                Presupuesto
+                Apellido
               </th>
               <th className='px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-gray-200 text-gray-600 border-gray-200'>
-                Fecha de inicio
-              </th>
-              <th className='px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-gray-200 text-gray-600 border-gray-200'>
-                Fecha de fin
+                Correo
               </th>
               <th className='px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-gray-200 text-gray-600 border-gray-200'>
                 Estado
               </th>
               <th className='px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-gray-200 text-gray-600 border-gray-200'>
-                Fase
+                Rol
               </th>
               <th className='px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-gray-200 text-gray-600 border-gray-200'>
                 Acciones
@@ -84,8 +93,8 @@ const TablaProyectos = () => {
             </tr>
           </thead>
           <tbody>
-            {data.obtenerProyectos.map((proyecto) => (
-              <ItemProyectos key={proyecto._id} proyecto={proyecto} />
+            {data.obtenerUsuarios.map((usuario) => (
+              <ItemUsuario key={usuario._id} usuario={usuario} />
             ))}
           </tbody>
         </table>
@@ -94,4 +103,4 @@ const TablaProyectos = () => {
   );
 };
 
-export default TablaProyectos;
+export default TablaUsuarios;

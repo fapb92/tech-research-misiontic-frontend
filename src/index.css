@@ -10,7 +10,7 @@
   --primary-text-color: white;
   --secundary-text-color: #117095;
   --button-success-background-color: #5cb85c;
-  --max-screen-size: 1366px;
+  --max-screen-size: 100vw;
   --button-info-background-color: #0e4479;
 }
 

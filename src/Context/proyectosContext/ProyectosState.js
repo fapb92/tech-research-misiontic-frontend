@@ -5,8 +5,6 @@ import ProyectosReducer from './ProyectosReducer';
 
 import { GET_PROYECTOS } from '../../graphql/proyectos/queries';
 
-import React from 'react';
-
 const ProyectosState = (props) => {
   const initialState = {
     proyectos: [],
@@ -18,7 +16,7 @@ const ProyectosState = (props) => {
 
   const getProyectos = (data) => {
     console.log(data);
-    dispatch({ type: GET_PROYECTOS, payload: data.obtenerProyectos });
+    dispatch({ type: GET_PROYECTOS, payload: data });
   };
 
   return (

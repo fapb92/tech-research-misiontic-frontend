@@ -8,16 +8,40 @@ const GET_PROYECTOS = gql`
       objetivosGenerales
       objetivosEspecificos
       presupuesto
-      # fechaInicio
-      # fechaFin
+      fechaInicio
+      fechaFin
       estado
       fase
       lider {
+        _id
         identificacion
         nombre
+        apellido
       }
     }
   }
 `;
 
-export { GET_PROYECTOS };
+const GET_PROYECTO = gql`
+  query Query($id: ID!) {
+    obtenerProyecto(_id: $id) {
+      _id
+      nombre
+      objetivosGenerales
+      objetivosEspecificos
+      presupuesto
+      fechaInicio
+      fechaFin
+      estado
+      fase
+      lider {
+        _id
+        identificacion
+        nombre
+        apellido
+      }
+    }
+  }
+`;
+
+export { GET_PROYECTOS, GET_PROYECTO };
