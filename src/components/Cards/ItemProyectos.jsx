@@ -1,7 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const ItemProyectos = ({ proyecto }) => {
-  const { nombre, presupuesto, estado, fase } = proyecto;
+  const { _id, nombre, presupuesto, fechaInicio, fechaFin, estado, fase } =
+    proyecto;
 
   return (
     <tr>
@@ -10,6 +12,12 @@ const ItemProyectos = ({ proyecto }) => {
       </th>
       <td className='border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4'>
         COP <span className='font-bold'>{presupuesto}</span>
+      </td>
+      <td className='border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4'>
+        {fechaInicio.slice(0, 10)}
+      </td>
+      <td className='border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4'>
+        {fechaFin.slice(0, 10)}
       </td>
       <td className='border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4'>
         <i
@@ -24,12 +32,12 @@ const ItemProyectos = ({ proyecto }) => {
         {fase}
       </td>
       <td>
-        <button className='bg-blue-500 text-white hover:bg-blue-700 font-bold uppercase text-xs px-4 py-2 rounded shadow mr-1'>
-          Editar
-        </button>
-        <button className='bg-gray-700 text-white hover:bg-gray-900 font-bold uppercase text-xs px-4 py-2 rounded shadow mr-1'>
+        <Link
+          to={`/proyectos/detalle/${_id}`}
+          className='bg-gray-700 text-white hover:bg-gray-900 font-bold uppercase text-xs px-4 py-2 rounded shadow mr-1'
+        >
           Detalles
-        </button>
+        </Link>
       </td>
     </tr>
   );

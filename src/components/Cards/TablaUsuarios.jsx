@@ -43,7 +43,12 @@ const TablaUsuarios = () => {
       </p>
     );
 
-  if (user.rol === 'ESTUDIANTE' || user.rol === 'LIDER') {
+  if (
+    user.rol === 'ESTUDIANTE' ||
+    user.rol === 'LIDER' ||
+    user.estado === 'NO_AUTORIZADO' ||
+    user.estado === 'PENDIENTE'
+  ) {
     return (
       <p className='mt-2 bg-gray-200 text-center rounded font-medium truncate text-gray-800'>
         {`El usuario ${user.nombre} ${user.apellido} no esta autorizado`}
