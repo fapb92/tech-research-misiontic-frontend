@@ -12,6 +12,7 @@ import UsuariosState from './Context/usuariosContext/UsuariosState';
 import Proyectos from './views/admin/Proyectos';
 import Usuarios from './views/admin/Usuarios';
 import NuevoProyecto from './components/Forms/NuevoProyecto';
+import DetalleProyecto from './components/Forms/DetalleProyecto';
 import { AuthProvider } from './Authentication/Auth';
 
 const client = new ApolloClient({
@@ -42,13 +43,16 @@ function App() {
                     element={<PrivateRoute children={<Proyectos />} />}
                   />
                   <Route
-                    path='/signin'
-                    element={<PublicRoute children={<Portada />} />}
-                  />
-
-                  <Route
                     path='/proyectos/nuevo'
                     element={<PrivateRoute children={<NuevoProyecto />} />}
+                  />
+                  <Route
+                    path='/proyectos/detalle/:id'
+                    element={<PrivateRoute children={<DetalleProyecto />} />}
+                  />
+                  <Route
+                    path='/signin'
+                    element={<PublicRoute children={<Portada />} />}
                   />
                 </Routes>
               </Router>

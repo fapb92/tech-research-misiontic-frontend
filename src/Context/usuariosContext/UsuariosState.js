@@ -23,7 +23,7 @@ const UsuariosState = (props) => {
   const { usuarios, user } = state;
 
   const getUsuarios = (data) => {
-    console.log(data);
+    // console.log(data);
     dispatch({ type: 'GET_USUARIOS', payload: data });
   };
 

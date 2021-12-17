@@ -16,7 +16,7 @@ const ProyectosState = (props) => {
 
   const getProyectos = (data) => {
     console.log(data);
-    dispatch({ type: GET_PROYECTOS, payload: data.obtenerProyectos });
+    dispatch({ type: GET_PROYECTOS, payload: data });
   };
 
   return (

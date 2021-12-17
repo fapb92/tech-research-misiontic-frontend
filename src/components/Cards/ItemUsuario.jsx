@@ -3,19 +3,33 @@ import { useMutation } from '@apollo/client';
 import { CAMBIAR_ESTADO } from '../../graphql/usuarios/mutations';
 import { Enum_EstadoUsuario } from '../../utils/enums';
 import Swal from 'sweetalert2';
+import { GET_USUARIOS } from '../../graphql/usuarios/queries';
 
 const ItemUsuario = ({ usuario }) => {
   const { _id, identificacion, nombre, apellido, email, rol, estado } = usuario;
   const [estadoNuevo, setEstadoNuevo] = useState('');
 
-  const [mutateEstado, { data, loading, error }] = useMutation(CAMBIAR_ESTADO);
+  const [mutateEstado, { /* data, loading, */ error }] = useMutation(
+    CAMBIAR_ESTADO,
+    {
+      refetchQueries: [{ query: GET_USUARIOS }],
+    }
+  );
 
   const handleChange = (e) => {
     setEstadoNuevo(e.target.value);
   };
 
   const cambiarEstado = (estadoNuevo) => {
-    if (estadoNuevo.trim() === '') return;
+    if (estadoNuevo.trim() === '') {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Seleccione un estado',
+      });
+
+      return;
+    }
 
     Swal.fire({
       title: '¿Estás seguro?',
