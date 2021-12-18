@@ -14,6 +14,7 @@ import Usuarios from './views/admin/Usuarios';
 import NuevoProyecto from './components/Forms/NuevoProyecto';
 import DetalleProyecto from './components/Forms/DetalleProyecto';
 import { AuthProvider } from './Authentication/Auth';
+import { Info } from './views/todos/Info';
 
 const client = new ApolloClient({
   uri: 'https://tech-research-back.herokuapp.com/graphql',
@@ -28,7 +29,6 @@ function App() {
           <ProyectosState>
             <div className='App'>
               <Router>
-                {/* <NavBar /> */}
                 <Routes>
                   <Route
                     path='/'
@@ -49,6 +49,10 @@ function App() {
                   <Route
                     path='/proyectos/detalle/:id'
                     element={<PrivateRoute children={<DetalleProyecto />} />}
+                  />
+                  <Route
+                    path='/settings'
+                    element={<PrivateRoute children={<Info />} />}
                   />
                   <Route
                     path='/signin'

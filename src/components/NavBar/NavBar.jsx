@@ -1,9 +1,64 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { LogOutButton } from "./LogOutButton";
+import { useAuth } from "../../Authentication/Auth";
 import "./NavBar.css";
 
 export const NavBar = () => {
+  const { user } = useAuth()
+
+  function itemsLi() {
+
+    switch (user.estado) {
+      case "PENDIENTE":
+      case "NO_AUTORIZADO":
+        return null;
+      case "AUTORIZADO":
+        switch (user.rol) {
+          case "ADMINISTRADOR":
+            return <>
+              <li className='navBarItems'>
+                <NavLink
+                  to='/usuarios'
+                  className='navBarLinks'
+                  onClick={() => cerrarLista()}
+                >
+                  Usuarios
+                </NavLink>
+              </li>
+              <li className='navBarItems'>
+                <NavLink
+                  to='/proyectos'
+                  className='navBarLinks'
+                  onClick={() => cerrarLista()}
+                >
+                  Proyectos
+                </NavLink>
+              </li>
+            </>
+          case "LIDER":
+          case "ESTUDIANTE":
+            return <>
+              <li className='navBarItems'>
+                <NavLink
+                  to='/proyectos'
+                  className='navBarLinks'
+                  onClick={() => cerrarLista()}
+                >
+                  Proyectos
+                </NavLink>
+              </li>
+            </>
+          default:
+            return null;
+
+        }
+      default:
+        return null;
+    }
+
+
+  }
+
   function abrirLista() {
     document.getElementById('navBarList').classList.add('navList_opened');
   }
@@ -28,26 +83,15 @@ export const NavBar = () => {
           <button className='closeMenu' onClick={() => cerrarLista()}>
             <i className='fas fa-times'></i>
           </button>
+          {itemsLi()}
           <li className='navBarItems'>
             <NavLink
-              to='/usuarios'
+              to='/settings'
               className='navBarLinks'
               onClick={() => cerrarLista()}
             >
-              Usuarios
+              <i className="fas fa-user-cog"></i>
             </NavLink>
-          </li>
-          <li className='navBarItems'>
-            <NavLink
-              to='/proyectos'
-              className='navBarLinks'
-              onClick={() => cerrarLista()}
-            >
-              Proyectos
-            </NavLink>
-          </li>
-          <li>
-            <LogOutButton className="btnSignOut">Cerrar Sesión</LogOutButton>
           </li>
         </ul>
       </nav>
