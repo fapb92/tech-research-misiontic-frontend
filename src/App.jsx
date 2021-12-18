@@ -7,7 +7,6 @@ import { PrivateRoute } from './components/rutaPublicaPrivada/PrivateRoute';
 import { PublicRoute } from './components/rutaPublicaPrivada/PublicRoute';
 
 import ProyectosState from './Context/proyectosContext/ProyectosState';
-import UsuariosState from './Context/usuariosContext/UsuariosState';
 
 import Proyectos from './views/admin/Proyectos';
 import Usuarios from './views/admin/Usuarios';
@@ -24,41 +23,39 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <AuthProvider>
-        <UsuariosState>
-          <ProyectosState>
-            <div className='App'>
-              <Router>
-                {/* <NavBar /> */}
-                <Routes>
-                  <Route
-                    path='/'
-                    element={<PrivateRoute children={<h1>Hola</h1>} />}
-                  />
-                  <Route
-                    path='/usuarios'
-                    element={<PrivateRoute children={<Usuarios />} />}
-                  />
-                  <Route
-                    path='/proyectos'
-                    element={<PrivateRoute children={<Proyectos />} />}
-                  />
-                  <Route
-                    path='/proyectos/nuevo'
-                    element={<PrivateRoute children={<NuevoProyecto />} />}
-                  />
-                  <Route
-                    path='/proyectos/detalle/:id'
-                    element={<PrivateRoute children={<DetalleProyecto />} />}
-                  />
-                  <Route
-                    path='/signin'
-                    element={<PublicRoute children={<Portada />} />}
-                  />
-                </Routes>
-              </Router>
-            </div>
-          </ProyectosState>
-        </UsuariosState>
+        <ProyectosState>
+          <div className='App'>
+            <Router>
+              {/* <NavBar /> */}
+              <Routes>
+                <Route
+                  path='/'
+                  element={<PrivateRoute children={<h1>Hola</h1>} />}
+                />
+                <Route
+                  path='/usuarios'
+                  element={<PrivateRoute children={<Usuarios />} />}
+                />
+                <Route
+                  path='/proyectos'
+                  element={<PrivateRoute children={<Proyectos />} />}
+                />
+                <Route
+                  path='/proyectos/nuevo'
+                  element={<PrivateRoute children={<NuevoProyecto />} />}
+                />
+                <Route
+                  path='/proyectos/detalle/:id'
+                  element={<PrivateRoute children={<DetalleProyecto />} />}
+                />
+                <Route
+                  path='/signin'
+                  element={<PublicRoute children={<Portada />} />}
+                />
+              </Routes>
+            </Router>
+          </div>
+        </ProyectosState>
       </AuthProvider>
     </ApolloProvider>
   );

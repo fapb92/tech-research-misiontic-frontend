@@ -57,9 +57,8 @@ const NuevoProyecto = () => {
         title: 'Creado',
         text: 'Proyecto creado con éxito',
       });
+      navigate('/proyectos');
     }
-
-    navigate('/proyectos');
   };
 
   return (
