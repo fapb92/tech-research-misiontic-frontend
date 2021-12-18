@@ -23,6 +23,7 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
         setIsAuth(false)
         setToken(null)
+        window.location.reload()
     }
 
 
