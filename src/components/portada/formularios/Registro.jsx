@@ -7,7 +7,7 @@ export const Registro = () => {
   const { crearUsuario } = useAuth();
   let navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const itemsForm = e.target.elements;
     const regexEmail =
@@ -38,7 +38,7 @@ export const Registro = () => {
       return;
     }
 
-    crearUsuario({
+    await crearUsuario({
       variables: {
         identificacion: itemsForm.identification.value,
         nombre: itemsForm.name.value,
