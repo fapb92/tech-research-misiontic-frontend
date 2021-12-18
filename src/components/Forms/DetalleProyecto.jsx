@@ -1,19 +1,30 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../../Authentication/Auth';
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
-import { GET_PROYECTO } from '../../graphql/proyectos/queries';
-import { Enum_EstadoProyecto } from '../../utils/enums';
+import { GET_PROYECTO, GET_PROYECTOS } from '../../graphql/proyectos/queries';
+import { UPDATE_PROYECTO } from '../../graphql/proyectos/mutations';
+import { Enum_EstadoProyecto, Enum_FaseProyecto } from '../../utils/enums';
 import Swal from 'sweetalert2';
 
 const DetalleProyecto = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
-  const { data, loading, error } = useQuery(GET_PROYECTO, {
+  const {
+    data: dataQueries,
+    loading,
+    error,
+  } = useQuery(GET_PROYECTO, {
     variables: { id },
   });
+
+  const [updateProyecto, { loading: loadingMutation, error: errorMutation }] =
+    useMutation(UPDATE_PROYECTO, {
+      refetchQueries: [{ query: GET_PROYECTOS }],
+    });
 
   const { user } = useAuth();
 
@@ -45,20 +56,56 @@ const DetalleProyecto = () => {
     );
 
   const {
-    // _id,
+    _id,
     nombre,
     presupuesto,
     objetivosGenerales,
     objetivosEspecificos,
-    // estado,
-    fase,
     lider,
     fechaInicio,
     fechaFin,
-  } = data.obtenerProyecto;
+  } = dataQueries.obtenerProyecto;
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = ({
+    nombre,
+    presupuesto,
+    objetivosGenerales,
+    objetivosEspecificos,
+    estado,
+    fase,
+  }) => {
+    updateProyecto({
+      variables: {
+        id: _id,
+        nombre,
+        presupuesto: parseFloat(presupuesto),
+        objetivosGenerales,
+        objetivosEspecificos,
+        estado,
+        fase,
+      },
+    });
+
+    if (loadingMutation) {
+      return <p>Cargando...</p>;
+    }
+
+    if (errorMutation) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo actualizar el proyecto',
+      });
+
+      return;
+    } else {
+      Swal.fire({
+        icon: 'success',
+        title: 'Actualizado',
+        text: 'Proyecto actualizado con éxito',
+      });
+      navigate('/proyectos');
+    }
   };
 
   return (
@@ -144,13 +191,8 @@ const DetalleProyecto = () => {
                     name='fechaInicio'
                     type='text'
                     defaultValue={fechaInicio.slice(0, 10)}
-                    disabled={user.rol === 'ESTUDIANTE'}
-                    {...register('fechaInicio', {
-                      required: {
-                        value: true,
-                        message: 'La fecha de inicio es requerida',
-                      },
-                    })}
+                    disabled
+                    {...register('fechaInicio')}
                     className='border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-gray-50 rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                   />
                   {errors.fechaInicio && (
@@ -170,13 +212,8 @@ const DetalleProyecto = () => {
                     name='fechaFin'
                     type='text'
                     defaultValue={fechaFin.slice(0, 10)}
-                    disabled={user.rol === 'ESTUDIANTE'}
-                    {...register('fechaFin', {
-                      required: {
-                        value: true,
-                        message: 'La fecha final es requerida',
-                      },
-                    })}
+                    disabled
+                    {...register('fechaFin')}
                     className='border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-gray-50 rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                   />
                   {errors.fechaFin && (
@@ -273,14 +310,22 @@ const DetalleProyecto = () => {
                   <label className='block uppercase text-gray-600 text-xs font-bold mb-2'>
                     Fase
                   </label>
-                  <input
+                  <select
                     name='fase'
                     type='text'
-                    disabled
-                    defaultValue={fase}
+                    disabled={user.rol === 'ESTUDIANTE'}
                     {...register('fase')}
                     className='border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-gray-50 rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
-                  />
+                  >
+                    <option value={Enum_FaseProyecto.NULO}>Nulo</option>
+                    <option value={Enum_FaseProyecto.INICIADO}>Iniciado</option>
+                    <option value={Enum_FaseProyecto.DESARROLLO}>
+                      Desarrollo
+                    </option>
+                    <option value={Enum_FaseProyecto.TERMINADO}>
+                      Terminado
+                    </option>
+                  </select>
                 </div>
               </div>
             </div>

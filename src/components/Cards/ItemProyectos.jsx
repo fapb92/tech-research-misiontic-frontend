@@ -1,9 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../Authentication/Auth';
 
 const ItemProyectos = ({ proyecto }) => {
   const { _id, nombre, presupuesto, fechaInicio, fechaFin, estado, fase } =
     proyecto;
+
+  const { user } = useAuth();
 
   return (
     <tr>
@@ -39,9 +42,11 @@ const ItemProyectos = ({ proyecto }) => {
           Detalles
         </Link>
 
-        <button className='bg-purple-500 text-white hover:bg-gray-900 font-bold uppercase text-xs px-4 py-2 rounded shadow mr-1'>
-          Inscribirme
-        </button>
+        {user.rol === 'ESTUDIANTE' && (
+          <button className='bg-purple-500 text-white hover:bg-gray-900 font-bold uppercase text-xs px-4 py-2 rounded shadow mr-1'>
+            Inscribirme
+          </button>
+        )}
       </td>
     </tr>
   );

@@ -1,26 +1,13 @@
-import React, { useEffect, useContext } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_USUARIOS } from '../../graphql/usuarios/queries';
 import { useAuth } from '../../Authentication/Auth';
 import ItemUsuario from './ItemUsuario';
-import UsuariosContext from '../../Context/usuariosContext/UsuariosContext';
 import Swal from 'sweetalert2';
 
 const TablaUsuarios = () => {
-  const usuariosContext = useContext(UsuariosContext);
-  const { getUsuarios } = usuariosContext;
-
   const { user } = useAuth();
 
   const { data, loading, error } = useQuery(GET_USUARIOS);
-
-  useEffect(() => {
-    console.log('useEffect desde usuarios');
-    if (!loading && !error) {
-      getUsuarios(data.obtenerUsuarios);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, loading, error]);
 
   if (error) {
     Swal.fire({
@@ -45,7 +32,6 @@ const TablaUsuarios = () => {
 
   if (
     user.rol === 'ESTUDIANTE' ||
-    user.rol === 'LIDER' ||
     user.estado === 'NO_AUTORIZADO' ||
     user.estado === 'PENDIENTE'
   ) {
@@ -54,6 +40,12 @@ const TablaUsuarios = () => {
         {`El usuario ${user.nombre} ${user.apellido} no esta autorizado`}
       </p>
     );
+  }
+
+  let usuarios = data.obtenerUsuarios;
+
+  if (user.rol === 'LIDER') {
+    usuarios = usuarios.filter((usuario) => usuario.rol === 'ESTUDIANTE');
   }
 
   return (
@@ -93,7 +85,7 @@ const TablaUsuarios = () => {
             </tr>
           </thead>
           <tbody>
-            {data.obtenerUsuarios.map((usuario) => (
+            {usuarios.map((usuario) => (
               <ItemUsuario key={usuario._id} usuario={usuario} />
             ))}
           </tbody>
