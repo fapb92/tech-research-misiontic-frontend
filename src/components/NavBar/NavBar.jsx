@@ -18,9 +18,6 @@ export const NavBar = () => {
             return (
               <>
                 <li className='navBarItems'>
-                  <div className='navBarLinks'>{user.rol.toLowerCase()}</div>
-                </li>
-                <li className='navBarItems'>
                   <NavLink
                     to='/usuarios'
                     className='navBarLinks'
@@ -43,9 +40,6 @@ export const NavBar = () => {
           case 'ESTUDIANTE':
             return (
               <>
-                <li className='navBarItems'>
-                  <div className='navBarLinks'>{user.rol.toLowerCase()}</div>
-                </li>
                 <li className='navBarItems'>
                   <NavLink
                     to='/proyectos'
@@ -90,6 +84,11 @@ export const NavBar = () => {
             <i className='fas fa-times'></i>
           </button>
           {itemsLi()}
+          <li className='navBarItems'>
+            <div className='navBarLinksRol'>
+              {user.rol.toLowerCase()}
+            </div>
+          </li>
           <li className='navBarItems'>
             <NavLink
               to='/settings'
