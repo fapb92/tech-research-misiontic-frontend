@@ -15,6 +15,7 @@ export const NavBar = () => {
       case "AUTORIZADO":
         switch (user.rol) {
           case "ADMINISTRADOR":
+          case "LIDER":
             return <>
               <li className='navBarItems'>
                 <NavLink
@@ -35,7 +36,6 @@ export const NavBar = () => {
                 </NavLink>
               </li>
             </>
-          case "LIDER":
           case "ESTUDIANTE":
             return <>
               <li className='navBarItems'>
