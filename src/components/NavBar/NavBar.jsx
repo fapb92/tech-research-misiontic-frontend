@@ -1,62 +1,68 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
-import { useAuth } from "../../Authentication/Auth";
-import "./NavBar.css";
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import { useAuth } from '../../Authentication/Auth';
+import './NavBar.css';
 
 export const NavBar = () => {
-  const { user } = useAuth()
+  const { user } = useAuth();
 
   function itemsLi() {
-
     switch (user.estado) {
-      case "PENDIENTE":
-      case "NO_AUTORIZADO":
+      case 'PENDIENTE':
+      case 'NO_AUTORIZADO':
         return null;
-      case "AUTORIZADO":
+      case 'AUTORIZADO':
         switch (user.rol) {
-          case "ADMINISTRADOR":
-            return <>
-              <li className='navBarItems'>
-                <NavLink
-                  to='/usuarios'
-                  className='navBarLinks'
-                  onClick={() => cerrarLista()}
-                >
-                  Usuarios
-                </NavLink>
-              </li>
-              <li className='navBarItems'>
-                <NavLink
-                  to='/proyectos'
-                  className='navBarLinks'
-                  onClick={() => cerrarLista()}
-                >
-                  Proyectos
-                </NavLink>
-              </li>
-            </>
-          case "LIDER":
-          case "ESTUDIANTE":
-            return <>
-              <li className='navBarItems'>
-                <NavLink
-                  to='/proyectos'
-                  className='navBarLinks'
-                  onClick={() => cerrarLista()}
-                >
-                  Proyectos
-                </NavLink>
-              </li>
-            </>
+          case 'ADMINISTRADOR':
+          case 'LIDER':
+            return (
+              <>
+                <li className='navBarItems'>
+                  <div className='navBarLinks'>{user.rol.toLowerCase()}</div>
+                </li>
+                <li className='navBarItems'>
+                  <NavLink
+                    to='/usuarios'
+                    className='navBarLinks'
+                    onClick={() => cerrarLista()}
+                  >
+                    Usuarios
+                  </NavLink>
+                </li>
+                <li className='navBarItems'>
+                  <NavLink
+                    to='/proyectos'
+                    className='navBarLinks'
+                    onClick={() => cerrarLista()}
+                  >
+                    Proyectos
+                  </NavLink>
+                </li>
+              </>
+            );
+          case 'ESTUDIANTE':
+            return (
+              <>
+                <li className='navBarItems'>
+                  <div className='navBarLinks'>{user.rol.toLowerCase()}</div>
+                </li>
+                <li className='navBarItems'>
+                  <NavLink
+                    to='/proyectos'
+                    className='navBarLinks'
+                    onClick={() => cerrarLista()}
+                  >
+                    Proyectos
+                  </NavLink>
+                </li>
+              </>
+            );
           default:
             return null;
-
         }
       default:
         return null;
     }
-
-
   }
 
   function abrirLista() {
@@ -90,7 +96,7 @@ export const NavBar = () => {
               className='navBarLinks'
               onClick={() => cerrarLista()}
             >
-              <i className="fas fa-user-cog"></i>
+              <i className='fas fa-user-cog'></i>
             </NavLink>
           </li>
         </ul>

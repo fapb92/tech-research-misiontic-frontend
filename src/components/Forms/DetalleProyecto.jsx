@@ -8,6 +8,7 @@ import { GET_PROYECTO, GET_PROYECTOS } from '../../graphql/proyectos/queries';
 import { UPDATE_PROYECTO } from '../../graphql/proyectos/mutations';
 import { Enum_EstadoProyecto, Enum_FaseProyecto } from '../../utils/enums';
 import Swal from 'sweetalert2';
+import { GET_INSCRIPCIONES } from '../../graphql/inscripciones/queries';
 
 const DetalleProyecto = () => {
   const { id } = useParams();
@@ -20,6 +21,12 @@ const DetalleProyecto = () => {
   } = useQuery(GET_PROYECTO, {
     variables: { id },
   });
+
+  const {
+    data: dataInscripciones,
+    loading: loadingInscripciones,
+    error: errorInscripciones,
+  } = useQuery(GET_INSCRIPCIONES);
 
   const [updateProyecto, { loading: loadingMutation, error: errorMutation }] =
     useMutation(UPDATE_PROYECTO, {
@@ -34,7 +41,7 @@ const DetalleProyecto = () => {
     formState: { errors },
   } = useForm({ mode: 'onBlur' });
 
-  if (error) {
+  if (error || errorInscripciones) {
     Swal.fire({
       icon: 'error',
       title: 'Error',
@@ -48,7 +55,7 @@ const DetalleProyecto = () => {
     );
   }
 
-  if (loading)
+  if (loading || loadingInscripciones)
     return (
       <p className='mt-2 bg-gray-200 text-center rounded font-medium truncate text-gray-800'>
         Cargando...
@@ -65,6 +72,10 @@ const DetalleProyecto = () => {
     fechaInicio,
     fechaFin,
   } = dataQueries.obtenerProyecto;
+
+  const inscripciones = dataInscripciones.obtenerInscripciones.filter(
+    (inscripcion) => inscripcion.proyecto._id === id
+  );
 
   const onSubmit = ({
     nombre,
@@ -352,12 +363,59 @@ const DetalleProyecto = () => {
                 </div>
               </div>
             </div>
-            <div className='flex'>
-              <button className='bg-green-500 ml-auto mr-3 text-white hover:bg-green-700 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150'>
-                Actualizar
-              </button>
-            </div>
+            {user.rol !== 'ESTUDIANTE' && (
+              <div className='flex'>
+                <button className='bg-green-500 ml-auto mr-3 text-white hover:bg-green-700 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150'>
+                  Actualizar
+                </button>
+              </div>
+            )}
           </form>
+          <div>
+            <hr className='mt-6 border-b-1 border-gray-300' />
+
+            <h6 className='text-gray-400 text-sm mt-3 mb-6 font-bold uppercase'>
+              Inscripciones
+            </h6>
+            <ul>
+              {inscripciones.map((inscripcion) => (
+                <li
+                  key={inscripcion._id}
+                  className='flex flex-wrap justify-between mb-3 text-gray-600  border-0 rounded items-center'
+                >
+                  <div className='px-3 py-3 text-sm text-gray-600 bg-gray-50 rounded shadow'>
+                    {inscripcion.estudiante.nombre}{' '}
+                    {inscripcion.estudiante.apellido}{' '}
+                  </div>
+                  <span>
+                    <i
+                      className={
+                        'fas fa-circle mr-2 ' +
+                        (inscripcion.estado === 'PENDIENTE' &&
+                          'text-yellow-500 ') +
+                        (inscripcion.estado === 'ACEPTADA' &&
+                          ' text-green-500 ') +
+                        (inscripcion.estado === 'RECHAZADA' && ' text-red-500 ')
+                      }
+                    ></i>
+                    {inscripcion.estado}
+                  </span>
+                  {user.rol !== 'ESTUDIANTE' && (
+                    <select className='border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-gray-50 rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150'>
+                      <option value=''>--SELECCIONE--</option>
+                      <option value='ACEPTADA'>Aceptada</option>
+                      <option value='RECHAZADA'>Rechazada</option>
+                    </select>
+                  )}
+                  {user.rol !== 'ESTUDIANTE' && (
+                    <button className='py-2 px-4 bg-blue-500 mr-3 text-white hover:bg-blue-700 font-bold uppercase text-xs rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150'>
+                      CAMBIAR
+                    </button>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </>
