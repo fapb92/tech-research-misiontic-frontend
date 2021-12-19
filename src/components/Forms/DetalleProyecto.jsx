@@ -1,20 +1,31 @@
+import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
 import { useForm } from 'react-hook-form';
-import { CREATE_PROYECTO } from '../../graphql/proyectos/mutations';
-import { GET_PROYECTOS } from '../../graphql/proyectos/queries';
-import Swal from 'sweetalert2';
 import { useAuth } from '../../Authentication/Auth';
+import { useMutation, useQuery } from '@apollo/client';
+import { useParams } from 'react-router-dom';
+import { GET_PROYECTO, GET_PROYECTOS } from '../../graphql/proyectos/queries';
+import { UPDATE_PROYECTO } from '../../graphql/proyectos/mutations';
+import { Enum_EstadoProyecto, Enum_FaseProyecto } from '../../utils/enums';
+import Swal from 'sweetalert2';
 
-const NuevoProyecto = () => {
-  const [createProyecto, { /* data, loading, */ error }] = useMutation(
-    CREATE_PROYECTO,
-    {
-      refetchQueries: [{ query: GET_PROYECTOS }],
-    }
-  );
-
+const DetalleProyecto = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
+
+  const {
+    data: dataQueries,
+    loading,
+    error,
+  } = useQuery(GET_PROYECTO, {
+    variables: { id },
+  });
+
+  const [updateProyecto, { loading: loadingMutation, error: errorMutation }] =
+    useMutation(UPDATE_PROYECTO, {
+      refetchQueries: [{ query: GET_PROYECTOS }],
+    });
+
   const { user } = useAuth();
 
   const {
@@ -23,39 +34,75 @@ const NuevoProyecto = () => {
     formState: { errors },
   } = useForm({ mode: 'onBlur' });
 
+  if (error) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'Error al cargar los datos!',
+    });
+
+    return (
+      <p className='mt-2 bg-gray-200 text-center rounded font-medium truncate text-gray-800'>
+        Error
+      </p>
+    );
+  }
+
+  if (loading)
+    return (
+      <p className='mt-2 bg-gray-200 text-center rounded font-medium truncate text-gray-800'>
+        Cargando...
+      </p>
+    );
+
+  const {
+    _id,
+    nombre,
+    presupuesto,
+    objetivosGenerales,
+    objetivosEspecificos,
+    lider,
+    fechaInicio,
+    fechaFin,
+  } = dataQueries.obtenerProyecto;
+
   const onSubmit = ({
     nombre,
     presupuesto,
-    fechaInicio,
-    fechaFin,
     objetivosGenerales,
     objetivosEspecificos,
+    estado,
+    fase,
   }) => {
-    createProyecto({
+    updateProyecto({
       variables: {
+        id: _id,
         nombre,
         presupuesto: parseFloat(presupuesto),
-        fechaInicio,
-        fechaFin,
-        objetivosGenerales: [objetivosGenerales],
-        objetivosEspecificos: [objetivosEspecificos],
-        lider: user._id,
+        objetivosGenerales,
+        objetivosEspecificos,
+        estado,
+        fase,
       },
     });
 
-    if (error) {
+    if (loadingMutation) {
+      return <p>Cargando...</p>;
+    }
+
+    if (errorMutation) {
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: 'No se pudo crear el proyecto',
+        text: 'No se pudo actualizar el proyecto',
       });
 
       return;
     } else {
       Swal.fire({
         icon: 'success',
-        title: 'Creado',
-        text: 'Proyecto creado con éxito',
+        title: 'Actualizado',
+        text: 'Proyecto actualizado con éxito',
       });
       navigate('/proyectos');
     }
@@ -90,6 +137,8 @@ const NuevoProyecto = () => {
                     name='nombre'
                     type='text'
                     placeholder='Nombre del proyecto'
+                    defaultValue={nombre}
+                    disabled={user.rol === 'ESTUDIANTE'}
                     {...register('nombre', {
                       required: {
                         value: true,
@@ -115,6 +164,8 @@ const NuevoProyecto = () => {
                     name='presupuesto'
                     type='Number'
                     placeholder='$ 10.000.000'
+                    defaultValue={presupuesto}
+                    disabled={user.rol === 'ESTUDIANTE'}
                     {...register('presupuesto', {
                       required: {
                         value: true,
@@ -138,13 +189,10 @@ const NuevoProyecto = () => {
                   </label>
                   <input
                     name='fechaInicio'
-                    type='date'
-                    {...register('fechaInicio', {
-                      required: {
-                        value: true,
-                        message: 'La fecha de inicio es requerida',
-                      },
-                    })}
+                    type='text'
+                    defaultValue={fechaInicio.slice(0, 10)}
+                    disabled
+                    {...register('fechaInicio')}
                     className='border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-gray-50 rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                   />
                   {errors.fechaInicio && (
@@ -162,13 +210,10 @@ const NuevoProyecto = () => {
                   </label>
                   <input
                     name='fechaFin'
-                    type='date'
-                    {...register('fechaFin', {
-                      required: {
-                        value: true,
-                        message: 'La fecha final es requerida',
-                      },
-                    })}
+                    type='text'
+                    defaultValue={fechaFin.slice(0, 10)}
+                    disabled
+                    {...register('fechaFin')}
                     className='border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-gray-50 rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                   />
                   {errors.fechaFin && (
@@ -186,7 +231,7 @@ const NuevoProyecto = () => {
               Objetivos
             </h6>
             <div className='flex flex-wrap'>
-              <div className='w-full lg:w-12/12 px-4'>
+              <div className='w-full lg:w-6/12 px-4'>
                 <div className='relative w-full mb-3'>
                   <label className='block uppercase text-gray-600 text-xs font-bold mb-2'>
                     Objetivos Generales
@@ -195,6 +240,8 @@ const NuevoProyecto = () => {
                     name='objetivosGenerales'
                     type='text'
                     placeholder='Objetivo general'
+                    defaultValue={objetivosGenerales[0]}
+                    disabled={user.rol === 'ESTUDIANTE'}
                     {...register('objetivosGenerales', {
                       required: {
                         value: true,
@@ -211,7 +258,7 @@ const NuevoProyecto = () => {
                 </div>
               </div>
 
-              <div className='w-full lg:w-12/12 px-4'>
+              <div className='w-full lg:w-6/12 px-4'>
                 <div className='relative w-full mb-3'>
                   <label className='block uppercase text-gray-600 text-xs font-bold mb-2'>
                     Objetivos específicos
@@ -220,6 +267,8 @@ const NuevoProyecto = () => {
                     name='objetivosEspecificos'
                     type='text'
                     placeholder='Objetivo específico'
+                    defaultValue={objetivosEspecificos[0]}
+                    disabled={user.rol === 'ESTUDIANTE'}
                     {...register('objetivosEspecificos', {
                       required: {
                         value: true,
@@ -233,6 +282,50 @@ const NuevoProyecto = () => {
                       {errors.objetivosEspecificos.message}
                     </span>
                   )}
+                </div>
+              </div>
+
+              <div className='w-full lg:w-6/12 px-4'>
+                <div className='relative w-full mb-3'>
+                  <label className='block uppercase text-gray-600 text-xs font-bold mb-2'>
+                    Estado
+                  </label>
+                  <select
+                    name='estado'
+                    placeholder='Objetivo específico'
+                    disabled={user.rol === 'ESTUDIANTE'}
+                    {...register('estado')}
+                    className='border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-gray-50 rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
+                  >
+                    <option value={Enum_EstadoProyecto.INACTIVO}>
+                      Inactivo
+                    </option>
+                    <option value={Enum_EstadoProyecto.ACTIVO}>Activo</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className='w-full lg:w-6/12 px-4'>
+                <div className='relative w-full mb-3'>
+                  <label className='block uppercase text-gray-600 text-xs font-bold mb-2'>
+                    Fase
+                  </label>
+                  <select
+                    name='fase'
+                    type='text'
+                    disabled={user.rol === 'ESTUDIANTE'}
+                    {...register('fase')}
+                    className='border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-gray-50 rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
+                  >
+                    <option value={Enum_FaseProyecto.NULO}>Nulo</option>
+                    <option value={Enum_FaseProyecto.INICIADO}>Iniciado</option>
+                    <option value={Enum_FaseProyecto.DESARROLLO}>
+                      Desarrollo
+                    </option>
+                    <option value={Enum_FaseProyecto.TERMINADO}>
+                      Terminado
+                    </option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -253,7 +346,7 @@ const NuevoProyecto = () => {
                     name='lider'
                     type='text'
                     placeholder='lider id'
-                    defaultValue={`${user.nombre} ${user.apellido}`}
+                    defaultValue={`${lider.nombre} ${lider.apellido}`}
                     className='border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-gray-50 rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                   />
                 </div>
@@ -261,7 +354,7 @@ const NuevoProyecto = () => {
             </div>
             <div className='flex'>
               <button className='bg-green-500 ml-auto mr-3 text-white hover:bg-green-700 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150'>
-                Agregar
+                Actualizar
               </button>
             </div>
           </form>
@@ -271,4 +364,4 @@ const NuevoProyecto = () => {
   );
 };
 
-export default NuevoProyecto;
+export default DetalleProyecto;

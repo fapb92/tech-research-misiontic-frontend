@@ -14,4 +14,16 @@ const GET_USUARIOS = gql`
   }
 `;
 
-export { GET_USUARIOS };
+const GET_UNSOLOUSUARIO = gql`
+query ObtenerUsuario($id: ID!) {
+obtenerUsuario(_id: $id) {
+  identificacion
+  nombre
+  apellido
+  email
+  rol
+}
+
+}`;
+
+export { GET_USUARIOS, GET_UNSOLOUSUARIO };

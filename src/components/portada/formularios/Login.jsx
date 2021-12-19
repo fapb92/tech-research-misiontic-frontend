@@ -41,7 +41,9 @@ export const Login = () => {
                         type="email"
                         name="email"
                         onChange={(e) => setEmail(e.target.value)}
-                        value={email} required placeholder='Ingrese Correo'/>
+                        value={email}
+                        placeholder='Ingrese correo electrónico' required />
+
                 </div>
                 <div className={style.itemsForm}>
                     <label>Contraseña</label>
@@ -49,7 +51,9 @@ export const Login = () => {
                         type="password"
                         name="password"
                         onChange={(e) => setPassword(e.target.value)}
-                        value={password} required placeholder='Ingrese Contraseña'/>
+                        value={password} placeholder="Ingrese contraseña" required />
+
+
                 </div>
                 <div className={style.itemsForm}>
                     <button className={style.btnSumit}>Iniciar Sesión</button>
