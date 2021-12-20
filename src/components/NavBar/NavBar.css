@@ -52,6 +52,12 @@
   text-shadow: 1px 1px 5px #555555;
 }
 
+.navBarLinksRol {
+  color: rgba(255, 255, 255, 0.733);
+  font-size: 1.25rem;
+  text-shadow: 1px 1px 5px #555555;
+}
+
 .btnSignOut {
   color: white;
   background: none;

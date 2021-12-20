@@ -1,12 +1,35 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../Authentication/Auth';
+import { useMutation } from '@apollo/client';
+import { CREATE_INSCRIPCION } from '../../graphql/inscripciones/mutations';
+import Swal from 'sweetalert2';
 
 const ItemProyectos = ({ proyecto }) => {
   const { _id, nombre, presupuesto, fechaInicio, fechaFin, estado, fase } =
     proyecto;
 
   const { user } = useAuth();
+
+  const [createInscripcion] = useMutation(CREATE_INSCRIPCION);
+
+  const handleClick = (idProyecto, idEstudiante) => {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, continuar!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        createInscripcion({
+          variables: { proyecto: idProyecto, estudiante: idEstudiante },
+        });
+        Swal.fire('Inscrito!', 'Usted se ha inscrito correctamente', 'success');
+      }
+    });
+  };
 
   return (
     <tr>
@@ -43,7 +66,10 @@ const ItemProyectos = ({ proyecto }) => {
         </Link>
 
         {user.rol === 'ESTUDIANTE' && (
-          <button className='bg-purple-500 text-white hover:bg-gray-900 font-bold uppercase text-xs px-4 py-2 rounded shadow mr-1'>
+          <button
+            onClick={() => handleClick(_id, user._id)}
+            className='bg-purple-500 text-white hover:bg-gray-900 font-bold uppercase text-xs px-4 py-2 rounded shadow mr-1'
+          >
             Inscribirme
           </button>
         )}
